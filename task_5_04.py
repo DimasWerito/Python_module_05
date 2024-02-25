@@ -29,3 +29,39 @@ Ukraine	UA	+380
 """
 
 
+def sanitize_phone_number(phone):
+    new_phone = (
+        phone.strip()
+        .removeprefix("+")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("-", "")
+        .replace(" ", "")
+    )
+    return new_phone
+
+
+def get_phone_numbers_for_countries(list_phones):
+    sorted_phones = {
+    "UA": [],
+    "JP": [],
+    "TW": [],
+    "SG": []
+    }
+    for phone in list_phones:
+        clean_phone = sanitize_phone_number(phone)
+        if clean_phone.startswith("380"):
+            sorted_phones["UA"].append(clean_phone)
+        elif clean_phone.startswith("81"):
+            sorted_phones["JP"].append(clean_phone)
+        elif clean_phone.startswith("886"):
+            sorted_phones["TW"].append(clean_phone)
+        elif clean_phone.startswith("65"):
+            sorted_phones["SG"].append(clean_phone)
+        else:
+            sorted_phones["UA"].append(clean_phone)
+    return sorted_phones
+
+
+list_phones = ["+38(063)27-64-273", "+8132892389238", "653829293983289", "+52-441-221-7882"]
+print(get_phone_numbers_for_countries(list_phones))
